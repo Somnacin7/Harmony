@@ -224,6 +224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735b4ecafc96f2f40b12a13d2d701c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dot: {fileID: 1781560971020628, guid: 7012e4e0f7e7368419ba87a2947ab6f8, type: 2}
+  radius: 1
+  radiusRange: 0.5
+  frequency: 3
+  numberOfDots: 100
 --- !u!4 &1444517000
 Transform:
   m_ObjectHideFlags: 0
