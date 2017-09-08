@@ -17,6 +17,7 @@ public class SoundGenerator : MonoBehaviour {
     public WaveType waveType = WaveType.SINE;
 
     public float[] Data { get; set; }
+    public int Channels { get; set; }
 
     private float increment;
     private float phase;
@@ -66,5 +67,6 @@ public class SoundGenerator : MonoBehaviour {
         }
 
         Data = data;
+        Channels = channels;
     }
 }
