@@ -215,6 +215,7 @@ MonoBehaviour:
   mat: {fileID: 2100000, guid: 53c57ebd154d2cf46bb62791b8c2c014, type: 2}
   waveLength: 10
   waveAmp: 5
+  waveShape: 0
 --- !u!114 &837461920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d46eb27c0f51434c9edcdb298db6b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: 440
+  frequency: 220
   gain: 0.5
   waveType: 0
 --- !u!1 &1444516998

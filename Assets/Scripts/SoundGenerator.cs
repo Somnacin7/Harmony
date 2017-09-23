@@ -19,38 +19,38 @@ public class SoundGenerator : MonoBehaviour {
     public float[] Data { get; set; }
     public int Channels { get; set; }
 
-    private float increment;
-    private float phase;
-    private float samplingFrequency = 48000;
+    private float _increment;
+    private float _phase;
+    private float _samplingFrequency = 48000;
 
     private void Awake()
     {
-        samplingFrequency = AudioSettings.outputSampleRate;
+        _samplingFrequency = AudioSettings.outputSampleRate;
     }
 
     private void OnAudioFilterRead(float[] data, int channels)
     {
         // update increment in case frequency has changed
-        increment = frequency * 2 * Mathf.PI / samplingFrequency;
+        _increment = frequency * 2 * Mathf.PI / _samplingFrequency;
         for (int i = 0; i < data.Length; i += channels)
         {
-            phase += increment;
+            _phase += _increment;
 
             // this is where we copy audio data to make them "available" to Unity
             switch (waveType)
             {
                 case WaveType.SINE:
-                    data[i] = gain * Mathf.Sin(phase);
+                    data[i] = gain * Mathf.Sin(_phase);
                     break;
                 case WaveType.SQUARE:
-                    data[i] = gain * Mathf.Sign(Mathf.Sin(phase));
+                    data[i] = gain * Mathf.Sign(Mathf.Sin(_phase));
                     break;
                 case WaveType.TRIANGLE:
-                    var wave = Mathf.Abs(Mathf.Lerp(-1, 1, phase / (2 * Mathf.PI))) * 2 - 1;
+                    var wave = Mathf.Abs(Mathf.Lerp(-1, 1, _phase / (2 * Mathf.PI))) * 2 - 1;
                     data[i] = gain * wave;
                     break;
                 case WaveType.SAWTOOTH:
-                    data[i] = gain * Mathf.Lerp(-1, 1, phase / (2 * Mathf.PI));
+                    data[i] = gain * Mathf.Lerp(-1, 1, _phase / (2 * Mathf.PI));
                     break;
             }
 
@@ -60,13 +60,13 @@ public class SoundGenerator : MonoBehaviour {
                 data[i + 1] = data[i];
             }
 
-            if (phase > 2 * Mathf.PI)
+            if (_phase > 2 * Mathf.PI)
             {
-                phase = 0;
+                _phase = 0;
             }
         }
 
         Data = data;
-        Channels = channels;
+        Channels = channels;    
     }
 }
