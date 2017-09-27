@@ -9,12 +9,11 @@ public class DrawPolarWaveform : MonoBehaviour {
     public float waveLength = 5f;
     public float waveAmp = 1f;
     public float radius = 1f;
-
-    private SoundGenerator _soundGenerator;
+    public SoundGenerator soundGenerator;
 
     private void Awake()
     {
-        _soundGenerator = GetComponent<SoundGenerator>();
+        soundGenerator = GetComponent<SoundGenerator>();
     }
 
     void OnRenderObject()
@@ -30,18 +29,31 @@ public class DrawPolarWaveform : MonoBehaviour {
         GL.Color(Color.red);
         GL.Begin(GL.LINES);
 
-        var dataLength = _soundGenerator.Data.Length;
+        var dataLength = soundGenerator.Data.Length;
         var data = new float[dataLength];
-        var channels = _soundGenerator.Channels;
-        _soundGenerator.Data.CopyTo(data, 0);
+        var channels = soundGenerator.Channels;
+        soundGenerator.Data.CopyTo(data, 0);
 
         float twoPi = 2.0f * Mathf.PI;
-        var startVert = new Vector3(origin.position.x, origin.position.y + radius, origin.position.z);
+        var startVert = new Vector3(Mathf.Cos(0), Mathf.Sin(0), origin.position.z) * radius;
+        var startDiff = new Vector3(Mathf.Cos(0) * data[0] * waveAmp, Mathf.Sin(0) * data[0] * waveAmp, origin.position.z);
+
+        startVert += startDiff;
+        startVert.z = origin.position.z;
+
         GL.Vertex(startVert);
 
         for (int x = 0; x < dataLength; x += channels)
         {
-            
+            var radians = ((float)x / dataLength) * twoPi;
+            var pos = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), origin.position.z) * radius;
+            var diff = new Vector3(Mathf.Cos(radians) * data[x] * waveAmp, Mathf.Sin(radians) * data[x] * waveAmp, origin.position.z);
+
+            pos += diff;
+            pos.z = origin.position.z;
+
+            GL.Vertex(pos);
+            GL.Vertex(pos);
         }
 
         GL.End();

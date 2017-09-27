@@ -10,12 +10,11 @@ public class DrawCartWaveform : MonoBehaviour {
     public Material mat;
     public float waveLength = 5f;
     public float waveAmp = 1f;
-
-    private SoundGenerator _soundGenerator;
+    public SoundGenerator soundGenerator;
 
     private void Awake()
     {
-        _soundGenerator = GetComponent<SoundGenerator>();
+        soundGenerator = GetComponent<SoundGenerator>(); 
     }
 
     void OnRenderObject()
@@ -31,17 +30,18 @@ public class DrawCartWaveform : MonoBehaviour {
         GL.Color(Color.red);
         GL.Begin(GL.LINES);
 
-        var dataLength = _soundGenerator.Data.Length;
+        var dataLength = soundGenerator.Data.Length;
         var data = new float[dataLength];
-        var channels = _soundGenerator.Channels;
-        _soundGenerator.Data.CopyTo(data, 0);
+        var channels = soundGenerator.Channels;
+        soundGenerator.Data.CopyTo(data, 0);
 
-        var startVert = new Vector3((origin.position.x + 0 / (float)dataLength) * waveLength, origin.position.y + data[0] * waveAmp, origin.position.z);
+        var startVert = new Vector3(0, data[0] * waveAmp, 0);
         GL.Vertex(startVert);
 
         for (int x = 0; x < dataLength; x += channels)
         {
-            var nextVert = new Vector3((origin.position.x + x / (float)dataLength) * waveLength, origin.position.y + data[x] * waveAmp, origin.position.z);
+            var diff = new Vector3(((float)x / dataLength) * waveLength, data[x] * waveAmp, 0);
+            var nextVert = diff;
 
             // closing vert
             GL.Vertex(nextVert);

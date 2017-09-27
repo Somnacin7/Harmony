@@ -43,14 +43,14 @@ public class SoundGenerator : MonoBehaviour {
                     data[i] = gain * Mathf.Sin(_phase);
                     break;
                 case WaveType.SQUARE:
-                    data[i] = gain * Mathf.Sign(Mathf.Sin(_phase));
+                    data[i] = gain * .1f * Mathf.Sign(Mathf.Sin(_phase));
                     break;
                 case WaveType.TRIANGLE:
                     var wave = Mathf.Abs(Mathf.Lerp(-1, 1, _phase / (2 * Mathf.PI))) * 2 - 1;
                     data[i] = gain * wave;
                     break;
                 case WaveType.SAWTOOTH:
-                    data[i] = gain * Mathf.Lerp(-1, 1, _phase / (2 * Mathf.PI));
+                    data[i] = gain * .2f * Mathf.Lerp(-1, 1, _phase / (2 * Mathf.PI));
                     break;
             }
 
